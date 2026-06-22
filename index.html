@@ -37,6 +37,9 @@ body { margin: 0; padding: 0; }
         map.addSource('places', {
             'type': 'geojson',
             'generateId': true,
+            'cluster': true,
+            'clusterMaxZoom': 14,
+            'clusterRadius': 50,
             'data': {
                 'type': 'FeatureCollection',
                 'features': [
@@ -525,11 +528,34 @@ body { margin: 0; padding: 0; }
                             }
                         });
 
-        // Add a circle layer showing the places.
+            map.addLayer({
+                'id': 'clusters',
+                'type': 'circle',
+                'source': 'places',
+                'filter': ['has', 'point_count'],
+                'paint': {
+                    'circle-color': '#888888',
+                    'circle-radius': 18
+                }
+            });
+
+                map.addLayer({
+            'id': 'cluster-count',
+            'type': 'symbol',
+            'source': 'places',
+            'filter': ['has', 'point_count'],
+            'layout': {
+                'text-field': ['get', 'point_count_abbreviated'],
+                'text-size': 12
+            }
+        });
+
+        
         map.addLayer({
             'id': 'places',
             'type': 'circle',
             'source': 'places',
+            'filter': ['!', ['has', 'point_count']],
             'paint': {
                 'circle-color': [
                   'match',
@@ -537,9 +563,9 @@ body { margin: 0; padding: 0; }
                   'research', '#3B82F6',
                   'hub', '#8B5CF6',
                   'company', '#F59E0B',
-                    'event', '#DE52FF',
-                    'jurisdiction', '#14B8A6',
-                    'sponsored', '#FFD700',
+                  'event', '#DE52FF',
+                  'jurisdiction', '#14B8A6',
+                  'sponsored', '#FFD700',
                   '#FF3838'
                 ],
                 'circle-radius': [
