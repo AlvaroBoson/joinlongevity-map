@@ -335,6 +335,7 @@ body { margin: 0; padding: 0; }
                 {
                   'type': 'Feature',
                   'properties': {
+                      'category':'sponsored',
                     'description':
                       '<strong>International Longevity Summit Madrid</strong><p>30 September – 1 October.<br>Private tours on 28–29 September.<br><br><strong>Discount code:</strong> JOINLONGEVITY20</p><p><a href="https://www.longevitysummit.madrid" target="_blank">🎟️ Conference Website</a></p>'
                   },
@@ -493,9 +494,15 @@ body { margin: 0; padding: 0; }
                   'company', '#F59E0B',
                     'event', '#DE52FF',
                     'jurisdiction', '#14B8A6',
+                    'sponsored', '#FFD700',
                   '#FF3838'
                 ],
-                'circle-radius': 6,
+                'circle-radius': [
+                  'match',
+                  ['get', 'category'],
+                  'sponsored', 10,
+                  6
+                ],
                 'circle-stroke-width': 2,
                 'circle-stroke-color': '#ffffff'
             }
